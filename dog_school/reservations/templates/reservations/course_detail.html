@@ -1,0 +1,12 @@
+{% comment %} {% extends "base.html" %} {% endcomment %}
+
+{% block title %}Course detail{% endblock %}
+
+{% block content %}
+<h1>Kurz</h1>
+
+<p>id: {{ course.id }}</p>
+<p>name: {{ course.name }}</p>
+<p>description: {{ course.description }}</p>
+
+{% endblock %}
