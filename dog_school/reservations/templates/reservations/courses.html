@@ -1,14 +1,15 @@
-{% comment %} {% extends "base.html" %} {% endcomment %}
+{% extends "reservations/base.html" %}
 
-{% block title %}Vsechny kurzy{% endblock %}
+{% load bootstrap5 %}
+
+{% block title %}Kurzy{% endblock %}
 
 {% block content %}
-<h1>Kurzy</h1>
 
 {% for course in courses %}
-    <a href="{% url 'course:detail' course.id %}">id: {{ course.id }}</a>
-    <p>name: {{ course.name }}</p>
-    <p>description: {{ course.description }}</p>
+    <p><a href="{% url 'course:detail' course.id %}">{{ course.name }}</a>
+    {% if course.description %}<br>description: {{ course.description }}{% endif %}
+    </p>
 {% endfor %}
 
 {% endblock %}

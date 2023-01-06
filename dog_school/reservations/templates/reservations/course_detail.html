@@ -1,13 +1,29 @@
-{% comment %} {% extends "base.html" %} {% endcomment %}
+{% extends "reservations/base.html" %}
 
-{% block title %}Course detail{% endblock %}
+{% load bootstrap5 %}
+
+{% block title %}{{ course.name }}{% endblock %}
 
 {% block content %}
-<h1>Kurz</h1>
 
-<p>id: {{ course.id }}</p>
-<p>name: {{ course.name }}</p>
-<p>description: {{ course.description }}</p>
+{% if course.description %}<p>{{ course.description }}</p>{% endif %}
+
+{% for lesson in course.lesson_set.all %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{ lesson.place }}</h5>
+            <div class="card-text">
+                <ul>
+                    <li><strong>Kdy: </strong>{{ lesson.when_datetime }}</li>
+                    <li><strong>Trener: </strong>{{ lesson.trainer }}</li>
+                    <li><strong>Kapacita: </strong>{{ lesson.capacity }}</li>
+                    <li><strong>Poznamka: </strong>{{ lesson.description }}</li>
+                </ul>
+            </div>
+            <a href="#">Go somewhere</a>
+        </div>
+    </div>
+{% endfor %}
 
 <a href="{% url 'course:all' %}">Vsechny kurzy</a>
 
