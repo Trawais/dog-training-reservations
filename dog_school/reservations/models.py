@@ -20,7 +20,7 @@ class Lesson(models.Model):
     updated = models.DateTimeField(auto_now=True)
     
     def __str__(self) -> str:
-        return ', '.join([self.place, self.when_datetime, self.trainer, self.capacity])
+        return ', '.join([self.place, self.trainer, str(self.when_datetime), str(self.capacity)])
     
 class Participant(models.Model):
     name = models.CharField(max_length=100)
