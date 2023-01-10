@@ -1,0 +1,36 @@
+{% extends "reservations/base.html" %}
+
+{% load bootstrap5 %}
+
+{% block title %}{{ course.name }}{% endblock %}
+
+{% block content %}
+
+{% if course.description %}<p>{{ course.description }}</p>{% endif %}
+<a href="{% url 'course:all' %}">Zpet na vsechny kurzy</a>
+
+{% for year_month, data in lessons.items %}
+    <h4>{{ year_month.0 }} / {{ year_month.1}}</h4>
+    <div class="container mb-3">
+    {% for week in data %}
+        <div class="row">
+            {% for day, lessons_list in week.items %}
+                <div class="col border">
+                    {% if day < 100 %}
+                        <span class="badge rounded-pill bg-secondary">{{ day }}</span>
+                    {% else %}
+                        <span>&nbsp;</span>
+                    {% endif %}
+                    {% for lesson in lessons_list %}
+                        <p>
+                            <a href="{% url 'course:lesson' lesson.pk %}">{{ lesson.when_datetime|date:'H:i' }}</a>
+                        </p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+    </div>
+{% endfor %}
+
+{% endblock %}
