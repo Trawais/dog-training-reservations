@@ -11,13 +11,13 @@
 
 {% for year_month, data in lessons.items %}
     <h4>{{ year_month.0 }} / {{ year_month.1}}</h4>
-    <div class="container mb-3">
+    <table class="border table">
     {% for week in data %}
-        <div class="row">
+        <tr>
             {% for day, lessons_list in week.items %}
-                <div class="col border">
+                <td class="border" style="min-width: 120px;">
                     {% if day < 100 %}
-                        <span class="badge rounded-pill bg-secondary">{{ day }}</span>
+                        <span class="badge rounded-pill bg-secondary">{{ day }}.&nbsp;{{ year_month.1 }}.</span>
                     {% else %}
                         <span>&nbsp;</span>
                     {% endif %}
@@ -26,11 +26,11 @@
                             <a href="{% url 'course:lesson' lesson.pk %}">{{ lesson.when_datetime|date:'H:i' }}</a>
                         </p>
                     {% endfor %}
-                </div>
+                </td>
             {% endfor %}
-        </div>
+        </tr>
     {% endfor %}
-    </div>
+    </table>
 {% endfor %}
 
 {% endblock %}

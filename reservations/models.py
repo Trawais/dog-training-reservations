@@ -23,6 +23,7 @@ class Lesson(models.Model):
         return ', '.join([self.place, self.trainer, str(self.when_datetime), str(self.capacity)])
     
 class Participant(models.Model):
+    # TODO: missing lesson 1-to-many relation
     name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=20, blank=True)
     note = models.CharField(max_length=200, blank=True)
