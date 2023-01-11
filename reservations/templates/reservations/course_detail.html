@@ -11,26 +11,30 @@
 
 {% for year_month, data in lessons.items %}
     <h4>{{ year_month.0 }} / {{ year_month.1}}</h4>
-    <div class="container mb-3">
+    <table class="border table">
     {% for week in data %}
-        <div class="row">
+        <tr>
             {% for day, lessons_list in week.items %}
-                <div class="col border">
+                {% if forloop.counter|divisibleby:6 or forloop.counter|divisibleby:7 %}
+                    <td class="border table-light" style="width: 120px;">
+                {% else %}
+                    <td class="border" style="width: 120px;">
+                {% endif %}
                     {% if day < 100 %}
-                        <span class="badge rounded-pill bg-secondary">{{ day }}</span>
+                        <div class="text-center">{{ day }}.&nbsp;{{ year_month.1 }}.</div>
                     {% else %}
-                        <span>&nbsp;</span>
+                        <div>&nbsp;</div>
                     {% endif %}
                     {% for lesson in lessons_list %}
-                        <p>
-                            <a href="{% url 'course:lesson' lesson.pk %}">{{ lesson.when_datetime|date:'H:i' }}</a>
-                        </p>
+                        <div>
+                            <a href="{% url 'course:lesson' lesson.pk %}">{{ lesson.when_datetime|date:'H:i' }} - {{lesson.trainer}}, {{lesson.place}}</a>
+                        </div>
                     {% endfor %}
-                </div>
+                </td>
             {% endfor %}
-        </div>
+        </tr>
     {% endfor %}
-    </div>
+    </table>
 {% endfor %}
 
 {% endblock %}
