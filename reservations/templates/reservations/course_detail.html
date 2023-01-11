@@ -15,16 +15,20 @@
     {% for week in data %}
         <tr>
             {% for day, lessons_list in week.items %}
-                <td class="border" style="min-width: 120px;">
+                {% if forloop.counter|divisibleby:6 or forloop.counter|divisibleby:7 %}
+                    <td class="border table-light" style="width: 120px;">
+                {% else %}
+                    <td class="border" style="width: 120px;">
+                {% endif %}
                     {% if day < 100 %}
-                        <span class="badge rounded-pill bg-secondary">{{ day }}.&nbsp;{{ year_month.1 }}.</span>
+                        <div class="text-center">{{ day }}.&nbsp;{{ year_month.1 }}.</div>
                     {% else %}
-                        <span>&nbsp;</span>
+                        <div>&nbsp;</div>
                     {% endif %}
                     {% for lesson in lessons_list %}
-                        <p>
-                            <a href="{% url 'course:lesson' lesson.pk %}">{{ lesson.when_datetime|date:'H:i' }}</a>
-                        </p>
+                        <div>
+                            <a href="{% url 'course:lesson' lesson.pk %}">{{ lesson.when_datetime|date:'H:i' }} - {{lesson.trainer}}, {{lesson.place}}</a>
+                        </div>
                     {% endfor %}
                 </td>
             {% endfor %}
