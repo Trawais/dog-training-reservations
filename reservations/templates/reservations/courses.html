@@ -7,7 +7,7 @@
 {% block content %}
 
 {% for course in courses %}
-    <p><a href="{% url 'course:detail' course.id %}">{{ course.name }}</a>
+    <p><a href="{% url 'reservations:course' course.id %}">{{ course.name }}</a>
     {% if course.description %}<br>description: {{ course.description }}{% endif %}
     </p>
 {% endfor %}
