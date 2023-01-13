@@ -6,21 +6,70 @@
 
 {% block content %}
 
+<div class="container">
 
-<div class="card" style="width: 18rem;">
-    <div class="card-body">
-        <h5 class="card-title">{{ lesson.place }}</h5>
-        <div class="card-text">
-            <ul>
-                <li><strong>Kdy: </strong>{{ lesson.when_datetime }}</li>
-                <li><strong>Trener: </strong>{{ lesson.trainer }}</li>
-                <li><strong>Kapacita: </strong>{{ lesson.capacity }}</li>
-                <li><strong>Poznamka: </strong>{{ lesson.description }}</li>
-            </ul>
+    <div class="row">
+        <div class="col">
+            <a href="{% url 'reservations:course' lesson.course.pk %}">Zpět na {{ lesson.course.name }}</a>
         </div>
     </div>
-</div>
 
-<a href="{% url 'course:detail' lesson.course.pk %}">Zpet na {{ lesson.course.name }}</a>
+    <div class="row">
+        <div class="col-lg-6">
+
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ lesson.trainer }}, {{ lesson.place }}</h5>
+                    <div class="card-text">
+                        <ul>
+                            <li><strong>Kdy: </strong>{{ lesson.when_datetime }}</li>
+                            <li><strong>Volných: </strong>{{ lesson.free_slots }} z {{ lesson.capacity }}</li>
+                            <li><strong>Poznámka: </strong>{{ lesson.description }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+
+            <div class="card mt-3">
+                <div class="card-header">
+                    Přihlášené týmy
+                </div>
+                <ul class="list-group list-group-flush">
+                {% for participant in lesson.participant_set.all %}
+                    {% if forloop.counter > lesson.capacity %}
+                        <li class="list-group-item" style="background-color: #FFCCCB;">
+                    {% else %}
+                        <li class="list-group-item">
+                    {% endif %}
+                        {{ participant.name }}{% if participant.phone_number %}, {{ participant.phone_number }}{% endif %}{% if participant.note %}, {{ participant.note }}{% endif %}
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 mt-3">
+            <h5>Přihlásit se<h5>
+            <form action="{% url 'reservations:lesson' lesson.pk %}" method="post" class="form">
+                {% csrf_token %}
+                {% bootstrap_form form layout="inline" %}
+                {% buttons %}
+                    <button type="submit" class="btn btn-primary mt-3">Pridat</button>
+                {% endbuttons %}
+            </form>
+
+        </div>
+    </div>
+
+</div> {% comment %} container {% endcomment %}
 
 {% endblock %}

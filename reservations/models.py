@@ -22,6 +22,10 @@ class Lesson(models.Model):
     def __str__(self) -> str:
         return ', '.join([self.place, self.trainer, str(self.when_datetime), str(self.capacity)])
     
+    def free_slots(self) -> int:
+        temp_result = self.capacity - len(self.participant_set.all())
+        return 0 if temp_result < 0 else temp_result
+    
 class Participant(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
