@@ -10,7 +10,7 @@
 
     <div clas="row">
         <div clas="col">
-            {% if course.description %}<p>{{ course.description }}</p>{% endif %}
+            {% if course.description %}<p class="fw-light">{{ course.description }}</p>{% endif %}
             <a href="{% url 'reservations:all' %}">Zpět na všechny kurzy</a>
         </div>
     </div>
@@ -39,11 +39,13 @@
                                 {% else %}
                                     <td class="border">
                                 {% endif %}
-                                    {% if day < 100 %}
-                                        <div class="text-center">{{ day }}.&nbsp;{{ year_month.1 }}.</div>
-                                    {% else %}
-                                        <div>&nbsp;</div>
-                                    {% endif %}
+                                    <div class="text-center mx-5">
+                                        {% if day < 100 %}
+                                            {{ day }}.&nbsp;{{ year_month.1 }}.
+                                        {% else %}
+                                            &nbsp;
+                                        {% endif %}
+                                    </div>
                                     {% for lesson in lessons_list %}
                                         <div style="width: 9em;">
                                             <a href="{% url 'reservations:lesson' lesson.pk %}">{{ lesson.when_datetime|date:'H:i' }} - {{lesson.place}}, {{lesson.free_slots}}/{{lesson.capacity}}</a>
