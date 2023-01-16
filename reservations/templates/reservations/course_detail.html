@@ -6,46 +6,59 @@
 
 {% block content %}
 
-{% if course.description %}<p>{{ course.description }}</p>{% endif %}
-<a href="{% url 'reservations:all' %}">Zpet na vsechny kurzy</a>
+<div class="container">
 
-{% for year_month, data in lessons.items %}
-    <h4>{{ year_month.0 }} / {{ year_month.1}}</h4>
-    <table class="border table">
-        <thead>
-            <tr>
-                {% with week="Pondělí Úterý Středa Čtvrtek Pátek Sobota Neděle" %}
-                    {% for day in week.split %}
-                        <th class="border text-center table-light" scope="col">{{ day }}</th>
-                    {% endfor %}
-                {% endwith %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for week in data %}
-                <tr>
-                    {% for day, lessons_list in week.items %}
-                        {% if forloop.counter|divisibleby:6 or forloop.counter|divisibleby:7 %}
-                            <td class="border table-light" style="width: 120px;">
-                        {% else %}
-                            <td class="border" style="width: 120px;">
-                        {% endif %}
-                            {% if day < 100 %}
-                                <div class="text-center">{{ day }}.&nbsp;{{ year_month.1 }}.</div>
-                            {% else %}
-                                <div>&nbsp;</div>
-                            {% endif %}
-                            {% for lesson in lessons_list %}
-                                <div>
-                                    <a href="{% url 'reservations:lesson' lesson.pk %}">{{ lesson.when_datetime|date:'H:i' }} - {{lesson.place}}, {{lesson.free_slots}}/{{lesson.capacity}}</a>
-                                </div>
+    <div clas="row">
+        <div clas="col">
+            {% if course.description %}<p>{{ course.description }}</p>{% endif %}
+            <a href="{% url 'reservations:all' %}">Zpět na všechny kurzy</a>
+        </div>
+    </div>
+
+    
+    {% for year_month, data in lessons.items %}
+    <div class="row mt-3">
+        <div class="col">
+            <h4>{{ year_month.0 }} / {{ year_month.1}}</h4>
+            <table class="border table">
+                <thead>
+                    <tr>
+                        {% with week="Pondělí Úterý Středa Čtvrtek Pátek Sobota Neděle" %}
+                            {% for day in week.split %}
+                                <th class="border text-center table-light" scope="col">{{ day }}</th>
                             {% endfor %}
-                        </td>
+                        {% endwith %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for week in data %}
+                        <tr>
+                            {% for day, lessons_list in week.items %}
+                                {% if forloop.counter|divisibleby:6 or forloop.counter|divisibleby:7 %}
+                                    <td class="border table-light">
+                                {% else %}
+                                    <td class="border">
+                                {% endif %}
+                                    {% if day < 100 %}
+                                        <div class="text-center">{{ day }}.&nbsp;{{ year_month.1 }}.</div>
+                                    {% else %}
+                                        <div>&nbsp;</div>
+                                    {% endif %}
+                                    {% for lesson in lessons_list %}
+                                        <div style="width: 9em;">
+                                            <a href="{% url 'reservations:lesson' lesson.pk %}">{{ lesson.when_datetime|date:'H:i' }} - {{lesson.place}}, {{lesson.free_slots}}/{{lesson.capacity}}</a>
+                                        </div>
+                                    {% endfor %}
+                                </td>
+                            {% endfor %}
+                        </tr>
                     {% endfor %}
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endfor %}
+
+</div> {% comment %} end of div container {% endcomment %}
 
 {% endblock %}
