@@ -15,21 +15,8 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-6">
-
-            <div class="card mt-3">
-                <div class="card-body">
-                    <h5 class="card-title">{{ lesson.trainer }}, {{ lesson.place }}</h5>
-                    <div class="card-text">
-                        <ul>
-                            <li><strong>Kdy: </strong>{{ lesson.when_datetime }}</li>
-                            <li><strong>Volných: </strong>{{ lesson.free_slots }} z {{ lesson.capacity }}</li>
-                            <li><strong>Poznámka: </strong>{{ lesson.description }}</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
+        <div class="col-lg-6 mt-3">
+            {% include "reservations/lesson_card.html" %}
         </div>
     </div>
 
