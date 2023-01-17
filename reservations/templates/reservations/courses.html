@@ -6,10 +6,21 @@
 
 {% block content %}
 
-{% for course in courses %}
-    <p><a href="{% url 'reservations:course' course.id %}">{{ course.name }}</a>
-    {% if course.description %}<br>description: {{ course.description }}{% endif %}
-    </p>
-{% endfor %}
+<div class="container">
+
+    
+    {% for course in courses %}
+        <div class="row">
+            <div class="col mt-4">
+                <a href="{% url 'reservations:course' course.id %}">{{ course.name }}</a>
+            {% if course.description %}
+                <br>
+                <span class="fw-light">{{ course.description }}</span>
+            {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+
+</div> {% comment %} end of div container {% endcomment %}
 
 {% endblock %}
