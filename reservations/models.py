@@ -1,4 +1,6 @@
 from django.db import models
+from datetime import timedelta
+from django.utils import timezone
 
 class Course(models.Model):
     name = models.CharField(max_length=100)
@@ -8,6 +10,9 @@ class Course(models.Model):
     
     def __str__(self) -> str:
         return self.name
+    
+    def delete_lessons_older_than(self, days):
+        return self.lesson_set.filter(when_datetime__lte=timezone.now() - timedelta(days=days)).delete()
     
 class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
