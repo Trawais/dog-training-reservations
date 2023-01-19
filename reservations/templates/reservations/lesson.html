@@ -34,7 +34,7 @@
                     {% else %}
                         <li class="list-group-item">
                     {% endif %}
-                        {{ participant.name }}{% if participant.phone_number %}, {{ participant.phone_number }}{% endif %}{% if participant.note %}, {{ participant.note }}{% endif %}
+                        {{ participant.name }}{% if participant.phone_number %}, {{ participant.phone_number|cut:" "|slice:":-6" }}****{{ participant.phone_number|cut:" "|slice:"-2:" }}{% endif %}{% if participant.note %}, {{ participant.note }}{% endif %}
                     </li>
                 {% empty %}
                     <li class="list-group-item fw-light">Zatím je tu prázdno</li>

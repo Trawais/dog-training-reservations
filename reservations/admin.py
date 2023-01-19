@@ -14,8 +14,9 @@ class ParticipantTabular(admin.TabularInline):
 class CourseAdmin(admin.ModelAdmin):
     inlines = [LessonTabular]
     list_display = ['name', 'description']
+    
 class LessonAdmin(admin.ModelAdmin):
-    list_display = ['course', 'when_datetime', 'place', 'trainer']
+    list_display = ['course', 'pk', 'when_datetime', 'place', 'trainer']
     list_filter = ['course']
     inlines = [ParticipantTabular]
 
