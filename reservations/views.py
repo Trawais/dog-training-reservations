@@ -8,14 +8,14 @@ from .forms import ParticipantForm
 
 def courses(request):
     courses = Course.objects.all()
-    return render(request, 'reservations/courses.html', { 'courses': courses} )
+    return render(request, 'reservations/all.html', { 'courses': courses} )
 
 def course_detail(request, pk):
     course = get_object_or_404(Course, pk=pk)
     deleted = course.delete_lessons_older_than(days=7)
     print("Deleted lessons:", deleted)
     if len(course.lesson_set.all()) == 0:
-        return render(request, 'reservations/course_detail.html', { 'course': course, 'lessons': [] })
+        return render(request, 'reservations/course.html', { 'course': course, 'lessons': [] })
 
     min_date = min(course.lesson_set.all(), key=lambda x: x.when_datetime)
     max_date = max(course.lesson_set.all(), key=lambda x: x.when_datetime)
@@ -29,7 +29,7 @@ def course_detail(request, pk):
                 break
                 
 
-    return render(request, 'reservations/course_detail.html', { 'course': course, 'lessons': lessons })
+    return render(request, 'reservations/course.html', { 'course': course, 'lessons': lessons })
 
 def lesson_detail(request, pk):
     lesson = get_object_or_404(Lesson, pk=pk)
@@ -46,4 +46,4 @@ def lesson_detail(request, pk):
             return HttpResponseRedirect(request.path_info)
 
     form = ParticipantForm()
-    return render(request, 'reservations/lesson_detail.html', { 'lesson': lesson, 'form': form } )
+    return render(request, 'reservations/lesson.html', { 'lesson': lesson, 'form': form } )
