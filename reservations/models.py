@@ -31,6 +31,12 @@ class Lesson(models.Model):
         temp_result = self.capacity - len(self.participant_set.all())
         return 0 if temp_result < 0 else temp_result
     
+    def taken_slots(self) -> int:
+        return len(self.participant_set.all())
+    
+    def is_over_capacity(self) -> bool:
+        return self.taken_slots() > self.capacity
+    
 class Participant(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
