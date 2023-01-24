@@ -11,6 +11,10 @@ class Course(models.Model):
     def __str__(self) -> str:
         return self.name
     
+    class Meta:
+        verbose_name = "Kurz"
+        verbose_name_plural = "Kurzy"
+    
     def delete_lessons_older_than(self, days):
         return self.lesson_set.filter(when_datetime__lte=timezone.now() - timedelta(days=days)).delete()
     
@@ -26,6 +30,10 @@ class Lesson(models.Model):
     
     def __str__(self) -> str:
         return ', '.join([self.place, self.trainer, str(self.when_datetime), str(self.capacity)])
+    
+    class Meta:
+        verbose_name = "Lekce"
+        verbose_name_plural = "Lekce"
     
     def free_slots(self) -> int:
         temp_result = self.capacity - len(self.participant_set.all())
