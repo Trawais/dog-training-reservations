@@ -5,7 +5,6 @@ class LessonTabular(admin.TabularInline):
     model = Lesson
     fields = ['trainer', 'place', 'when_datetime', 'capacity']
     show_change_link = True
-    
 
 class ParticipantTabular(admin.TabularInline):
     model = Participant
@@ -14,7 +13,7 @@ class ParticipantTabular(admin.TabularInline):
 class CourseAdmin(admin.ModelAdmin):
     inlines = [LessonTabular]
     list_display = ['name', 'description']
-    
+
 class LessonAdmin(admin.ModelAdmin):
     list_display = ['course', 'pk', 'when_datetime', 'place', 'trainer']
     list_filter = ['course']
