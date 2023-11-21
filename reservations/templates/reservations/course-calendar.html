@@ -1,0 +1,72 @@
+{% extends "reservations/base.html" %}
+
+{% load bootstrap5 %}
+
+{% block title %}{{ course.name }}{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div clas="row">
+        <div clas="col">
+            {% if course.description %}<p class="fw-light">{{ course.description }}</p>{% endif %}
+            <div class="btn-group">
+                <a href="{% url 'reservations:all' %}" class="btn btn-primary">Zpět</a>
+                <a href="{% url 'reservations:course' course.id %}" class="btn btn-warning">Seznam</a>
+            </div>
+        </div>
+    </div>
+
+
+    {% for year_month, data in lessons.items %}
+    <div class="row mt-3">
+        <div class="col">
+            <h4>{{ year_month.0 }} / {{ year_month.1}}</h4>
+            <table class="border table">
+                <thead>
+                    <tr>
+                        {% with week="Pondělí Úterý Středa Čtvrtek Pátek Sobota Neděle" %}
+                            {% for day in week.split %}
+                                <th class="border text-center table-light" scope="col">{{ day }}</th>
+                            {% endfor %}
+                        {% endwith %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for week in data %}
+                        <tr>
+                            {% for day, lessons_list in week.items %}
+                                {% if forloop.counter|divisibleby:6 or forloop.counter|divisibleby:7 %}
+                                    <td class="border table-light">
+                                {% else %}
+                                    <td class="border">
+                                {% endif %}
+                                    <div class="text-center mx-5">
+                                        {% if day < 100 %}
+                                            {{ day }}.&nbsp;{{ year_month.1 }}.
+                                        {% else %}
+                                            &nbsp;
+                                        {% endif %}
+                                    </div>
+                                    {% for lesson in lessons_list %}
+                                        <div style="width: 9em;">
+                                            <a {% if lesson.is_over_capacity %}class="text-danger"{% endif %} type="button" data-bs-toggle="collapse" href="#collapseLessonPreview-{{lesson.pk}}" role="button" aria-expanded="false" aria-controls="collapseExample">{{ lesson.when_datetime|date:'H:i' }} - {{lesson.place}}, {{lesson.taken_slots}}/{{lesson.capacity}}</a>
+                                        </div>
+                                        <div class="collapse" id="collapseLessonPreview-{{lesson.pk}}">
+                                            {% include "reservations/lesson_card.html" with show_button=True %}
+                                        </div>
+                                    {% endfor %}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endfor %}
+
+</div> {% comment %} end of div container {% endcomment %}
+
+{% endblock %}

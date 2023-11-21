@@ -6,11 +6,11 @@
 
 {% block content %}
 
-<div class="container">
-
     <div class="row">
         <div class="col">
-            <a href="{% url 'reservations:course' lesson.course.pk %}">Zpět na {{ lesson.course.name }}</a>
+            <div class="btn-group">
+                <a href="{% url 'reservations:course' lesson.course.pk %}" class="btn btn-primary">Zpět na {{ lesson.course.name }}</a>
+            </div>
         </div>
     </div>
 
@@ -58,7 +58,5 @@
 
         </div>
     </div>
-
-</div> {% comment %} end of div container {% endcomment %}
 
 {% endblock %}
