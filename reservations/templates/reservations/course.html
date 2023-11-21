@@ -6,64 +6,45 @@
 
 {% block content %}
 
-<div class="container">
-
     <div clas="row">
         <div clas="col">
-            {% if course.description %}<p class="fw-light">{{ course.description }}</p>{% endif %}
-            <a href="{% url 'reservations:all' %}">Zpět na všechny kurzy</a>
+            <p class="fw-light">{{ course.description }}</p>
+            <div class="btn-group">
+                <a href="{% url 'reservations:all' %}" class="btn btn-primary">Zpět</a>
+                <a href="{% url 'reservations:course-calendar' course.id %}" class="btn btn-warning">Kalendář</a>
+            </div>
         </div>
     </div>
 
-    
-    {% for year_month, data in lessons.items %}
-    <div class="row mt-3">
-        <div class="col">
-            <h4>{{ year_month.0 }} / {{ year_month.1}}</h4>
-            <table class="border table">
-                <thead>
-                    <tr>
-                        {% with week="Pondělí Úterý Středa Čtvrtek Pátek Sobota Neděle" %}
-                            {% for day in week.split %}
-                                <th class="border text-center table-light" scope="col">{{ day }}</th>
-                            {% endfor %}
-                        {% endwith %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for week in data %}
-                        <tr>
-                            {% for day, lessons_list in week.items %}
-                                {% if forloop.counter|divisibleby:6 or forloop.counter|divisibleby:7 %}
-                                    <td class="border table-light">
-                                {% else %}
-                                    <td class="border">
-                                {% endif %}
-                                    <div class="text-center mx-5">
-                                        {% if day < 100 %}
-                                            {{ day }}.&nbsp;{{ year_month.1 }}.
-                                        {% else %}
-                                            &nbsp;
-                                        {% endif %}
-                                    </div>
-                                    {% for lesson in lessons_list %}
-                                        <div style="width: 9em;">
-                                            <a {% if lesson.is_over_capacity %}class="text-danger"{% endif %} type="button" data-bs-toggle="collapse" href="#collapseLessonPreview-{{lesson.pk}}" role="button" aria-expanded="false" aria-controls="collapseExample">{{ lesson.when_datetime|date:'H:i' }} - {{lesson.place}}, {{lesson.taken_slots}}/{{lesson.capacity}}</a>
-                                        </div>
-                                        <div class="collapse" id="collapseLessonPreview-{{lesson.pk}}">
-                                            {% include "reservations/lesson_card.html" with show_button=True %}
-                                        </div>
-                                    {% endfor %}
-                                </td>
-                            {% endfor %}
-                        </tr>
+
+    <div class="row">
+        {% for lesson in course.lesson_set.all %}
+            <div class="col-xl-4 col-lg-6 col-md-12">
+                <div class="card mt-3">
+                    <div class="card-header">
+                        {{ lesson.trainer }}, {{ lesson.place }}<br/>
+                        <b>Kdy:</b> {{ lesson.when_datetime|date:"l"}} {{ lesson.when_datetime}}<br/>
+                        <b>Kapacita:</b> {{lesson.free_slots}} volných z celkových {{ lesson.capacity }} míst
+                        {% if lesson.description %}<br/><b>Poznámka:</b> {{lesson.description}} {% endif %}
+
+                    </div>
+                    <ul class="list-group list-group-flush">
+                    {% for participant in lesson.participant_set.all %}
+                        {% if forloop.counter > lesson.capacity %}
+                            <li class="list-group-item" style="background-color: #FFCCCB;">
+                        {% else %}
+                            <li class="list-group-item">
+                        {% endif %}
+                            {{ participant.name }}{% if participant.phone_number %}, {{ participant.phone_number|cut:" "|slice:":-6" }}****{{ participant.phone_number|cut:" "|slice:"-2:" }}{% endif %}{% if participant.note %}, {{ participant.note }}{% endif %}
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item fw-light">Zatím je tu prázdno</li>
                     {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                    <li class="list-group-item bg-light"><a class="btn btn-primary" href="{% url 'reservations:lesson' lesson.pk %}">Přihlásit</a></li>
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
     </div>
-{% endfor %}
-
-</div> {% comment %} end of div container {% endcomment %}
 
 {% endblock %}

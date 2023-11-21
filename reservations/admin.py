@@ -3,7 +3,7 @@ from .models import *
 
 class LessonTabular(admin.TabularInline):
     model = Lesson
-    fields = ['trainer', 'place', 'when_datetime', 'capacity']
+    fields = ['trainer', 'place', 'when_datetime', 'capacity', 'description']
     show_change_link = True
 
 class ParticipantTabular(admin.TabularInline):
