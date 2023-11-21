@@ -10,8 +10,8 @@
         <div clas="col">
             <p class="fw-light">{{ course.description }}</p>
             <div class="btn-group">
-                <a href="{% url 'reservations:all' %}" class="btn btn-primary">Zpět</a>
-                <a href="{% url 'reservations:course-calendar' course.id %}" class="btn btn-warning">Kalendář</a>
+                <a href="{% url 'reservations:all' %}" class="btn btn-primary">Všechny kurzy</a>
+                <a href="{% url 'reservations:course-calendar' course.id %}" class="btn btn-secondary">Kalendář</a>
             </div>
         </div>
     </div>

@@ -6,14 +6,12 @@
 
 {% block content %}
 
-<div class="container">
-
     <div clas="row">
         <div clas="col">
-            {% if course.description %}<p class="fw-light">{{ course.description }}</p>{% endif %}
+            <p class="fw-light">{{ course.description }}</p>
             <div class="btn-group">
-                <a href="{% url 'reservations:all' %}" class="btn btn-primary">Zpět</a>
-                <a href="{% url 'reservations:course' course.id %}" class="btn btn-warning">Seznam</a>
+                <a href="{% url 'reservations:all' %}" class="btn btn-primary">Všechny kurzy</a>
+                <a href="{% url 'reservations:course' course.id %}" class="btn btn-secondary">Seznam</a>
             </div>
         </div>
     </div>
@@ -66,7 +64,5 @@
         </div>
     </div>
 {% endfor %}
-
-</div> {% comment %} end of div container {% endcomment %}
 
 {% endblock %}
