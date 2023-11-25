@@ -7,7 +7,7 @@ from .models import Course, Lesson, Participant
 from .forms import ParticipantForm
 
 def courses(request):
-    courses = Course.objects.all()
+    courses = Course.objects.all().order_by('name')
     return render(request, 'reservations/all-courses.html', { 'courses': courses} )
 
 def course_detail_calendar(request, pk):
