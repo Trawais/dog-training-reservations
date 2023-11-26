@@ -6,18 +6,18 @@
 
 {% block content %}
 
-    <div clas="row">
-        <div clas="col">
-            <p class="fw-light">{{ course.description }}</p>
-            <div class="btn-group">
-                <a href="{% url 'reservations:all' %}" class="btn btn-primary">Všechny kurzy</a>
-                <a href="{% url 'reservations:course' course.id %}" class="btn btn-secondary">Seznam</a>
-            </div>
+<div clas="row">
+    <div clas="col">
+        <p class="fw-light">{{ course.description }}</p>
+        <div class="btn-group">
+            <a href="{% url 'reservations:all' %}" class="btn btn-primary">Všechny kurzy</a>
+            <a href="{% url 'reservations:course' course.id %}" class="btn btn-secondary">Seznam</a>
         </div>
     </div>
+</div>
 
 
-    {% for year_month, data in lessons.items %}
+{% for year_month, data in lessons.items %}
     <div class="row mt-3">
         <div class="col">
             <h4>{{ year_month.0 }} / {{ year_month.1}}</h4>
@@ -63,6 +63,8 @@
             </table>
         </div>
     </div>
+{% empty %}
+    <p>Žádné lekce nejsou aktuálně vypsány.</p>
 {% endfor %}
 
 {% endblock %}
