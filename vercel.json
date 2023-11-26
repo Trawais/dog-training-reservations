@@ -26,5 +26,8 @@
             "src": "/(.*)",
             "dest": "dog_school/wsgi.py"
         }
+    ],
+    "regions": [
+        "fra1"
     ]
 }
