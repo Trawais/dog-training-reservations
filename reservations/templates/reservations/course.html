@@ -18,7 +18,7 @@
 
 
 <div class="row">
-    {% for lesson in course.lesson_set.all %}
+    {% for lesson in course.lesson_set.all|dictsort:"when_datetime" %}
         <div class="col-xl-4 col-lg-6 col-md-12">
             <div class="card mt-3">
                 <div class="card-header">
