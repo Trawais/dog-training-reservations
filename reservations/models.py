@@ -45,6 +45,9 @@ class Lesson(models.Model):
     def is_over_capacity(self) -> bool:
         return self.taken_slots() > self.capacity
 
+    def is_full(self) -> bool:
+        return self.taken_slots() >= self.capacity
+
 class Participant(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
