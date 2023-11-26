@@ -6,57 +6,69 @@
 
 {% block content %}
 
-    <div class="row">
-        <div class="col">
-            <div class="btn-group">
-                <a href="{% url 'reservations:course' lesson.course.pk %}" class="btn btn-primary">Zpět na {{ lesson.course.name }}</a>
-            </div>
+<div class="row">
+    <div class="col">
+        <div class="btn-group">
+            <a href="{% url 'reservations:course' lesson.course.pk %}" class="btn btn-primary">Zpět na {{ lesson.course.name }}</a>
         </div>
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-lg-6 mt-3">
-            {% include "reservations/lesson_card.html" %}
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-6">
-
-            <div class="card mt-3">
-                <div class="card-header">
-                    Přihlášené týmy
-                </div>
-                <ul class="list-group list-group-flush">
-                {% for participant in lesson.participant_set.all %}
-                    {% if forloop.counter > lesson.capacity %}
-                        <li class="list-group-item" style="background-color: #FFCCCB;">
-                    {% else %}
-                        <li class="list-group-item">
-                    {% endif %}
-                        {{ participant.name }}{% if participant.phone_number %}, {{ participant.phone_number|cut:" "|slice:":-6" }}****{{ participant.phone_number|cut:" "|slice:"-2:" }}{% endif %}{% if participant.note %}, {{ participant.note }}{% endif %}
-                    </li>
-                {% empty %}
-                    <li class="list-group-item fw-light">Zatím je tu prázdno</li>
-                {% endfor %}
+<div class="row">
+    <div class="col-lg-6 mt-3">
+        <div class="card card-body">
+            <h5 class="card-title">{{ lesson.trainer }}, {{ lesson.place }}</h5>
+            <div class="card-text">
+                <ul>
+                    <li><strong>Kdy: </strong>{{ lesson.when_datetime }}</li>
+                    <li><strong>Volných: </strong>{{ lesson.free_slots }} z {{ lesson.capacity }}</li>
+                    <li><strong>Poznámka: </strong>{{ lesson.description }}</li>
                 </ul>
+                {% if show_button %}
+                    <a class="btn btn-primary" href="{% url 'reservations:lesson' lesson.pk %}">Přihlásit</a>
+                {% endif %}
             </div>
-
         </div>
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-lg-6 mt-3">
-            <h5>Přihlásit se<h5>
-            <form action="{% url 'reservations:lesson' lesson.pk %}" method="post" class="form">
-                {% csrf_token %}
-                {% bootstrap_form form layout="inline" %}
-                {% buttons %}
-                    <button type="submit" class="btn btn-primary mt-3">Pridat</button>
-                {% endbuttons %}
-            </form>
+<div class="row">
+    <div class="col-lg-6">
 
+        <div class="card mt-3">
+            <div class="card-header">
+                Přihlášené týmy
+            </div>
+            <ul class="list-group list-group-flush">
+            {% for participant in lesson.participant_set.all %}
+                {% if forloop.counter > lesson.capacity %}
+                    <li class="list-group-item" style="background-color: #FFCCCB;">
+                {% else %}
+                    <li class="list-group-item">
+                {% endif %}
+                    {{ participant.name }}{% if participant.phone_number %}, {{ participant.phone_number|cut:" "|slice:":-6" }}****{{ participant.phone_number|cut:" "|slice:"-2:" }}{% endif %}{% if participant.note %}, {{ participant.note }}{% endif %}
+                </li>
+            {% empty %}
+                <li class="list-group-item fw-light">Zatím je tu prázdno</li>
+            {% endfor %}
+            </ul>
         </div>
+
     </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 mt-3">
+        <h5>Přihlásit se<h5>
+        <form action="{% url 'reservations:lesson' lesson.pk %}" method="post" class="form">
+            {% csrf_token %}
+            {% bootstrap_form form layout="inline" %}
+            {% buttons %}
+                <button type="submit" class="btn btn-primary mt-3">Pridat</button>
+            {% endbuttons %}
+        </form>
+
+    </div>
+</div>
 
 {% endblock %}

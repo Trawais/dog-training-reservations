@@ -49,10 +49,7 @@
                                     </div>
                                     {% for lesson in lessons_list %}
                                         <div style="width: 9em;">
-                                            <a {% if lesson.is_over_capacity %}class="text-danger"{% endif %} type="button" data-bs-toggle="collapse" href="#collapseLessonPreview-{{lesson.pk}}" role="button" aria-expanded="false" aria-controls="collapseExample">{{ lesson.when_datetime|date:'H:i' }} - {{lesson.place}}, {{lesson.taken_slots}}/{{lesson.capacity}}</a>
-                                        </div>
-                                        <div class="collapse" id="collapseLessonPreview-{{lesson.pk}}">
-                                            {% include "reservations/lesson_card.html" with show_button=True %}
+                                            <a {% if lesson.is_full %}class="text-danger"{% endif %} href="{% url 'reservations:lesson' lesson.pk %}">{{ lesson.when_datetime|date:'H:i' }} - {{lesson.place}}, {{lesson.taken_slots}}/{{lesson.capacity}}</a>
                                         </div>
                                     {% endfor %}
                                 </td>
