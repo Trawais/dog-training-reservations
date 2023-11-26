@@ -22,7 +22,9 @@
         <div class="col-xl-4 col-lg-6 col-md-12">
             <div class="card mt-3">
                 <div class="card-header">
-                    <b>{{ lesson.trainer }}, {{ lesson.place }}</b><br/>
+                    <b>{{ lesson.trainer }}, {{ lesson.place }}</b>
+                        {% if lesson.is_full %}&nbsp;<span class="badge bg-danger">Obsazeno</span>{% endif %}
+                        <br/>
                     <b>Kdy:</b> {{ lesson.when_datetime|date:"l"}} {{ lesson.when_datetime}}<br/>
                     <b>Kapacita:</b> <b>{{lesson.free_slots}}</b> volných z celkových <b>{{ lesson.capacity }}</b> míst
                     {% if lesson.description %}
