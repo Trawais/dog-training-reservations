@@ -12,8 +12,7 @@ def courses(request):
 
 def course_detail_calendar(request, pk):
     course = get_object_or_404(Course, pk=pk)
-    deleted = course.delete_lessons_older_than(days=7)
-    print("Deleted lessons:", deleted)
+
     if len(course.lesson_set.all()) == 0:
         return render(request, 'reservations/course-calendar.html', { 'course': course, 'lessons': [] })
 
@@ -32,6 +31,9 @@ def course_detail_calendar(request, pk):
 
 def course_detail(request, pk):
     course = get_object_or_404(Course, pk=pk)
+    deleted = course.delete_lessons_older_than(days=1)
+    print("Deleted lessons:", deleted)
+
     return render(request, 'reservations/course.html', { 'course': course })
 
 def lesson_detail(request, pk):
