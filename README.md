@@ -4,7 +4,12 @@
 1. Create virtual environment: `python -m venv django-env`
 2. Activate virtual environment: `source django-env/bin/activate `
 3. Install packages: `pip install -r requirements.txt`
-4. Run dev server: `python manage.py runserver`
+4. Run dev server: `DEBUG=True python manage.py runserver`
+
+### Debug mode
+In `dog_school/settings.py` file you can see the debug mode is led by `DEBUG` env var.
+If it is set to `True` (yes, with capital `T`) the debug mode is active.
+Otherwise the production mode (non-debug) is used.
 
 ## Create database
 1. Run all migrations: `python manage.py migrate`
