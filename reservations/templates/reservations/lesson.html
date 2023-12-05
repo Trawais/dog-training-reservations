@@ -40,7 +40,7 @@
                 Přihlášené týmy
             </div>
             <ul class="list-group list-group-flush">
-            {% for participant in lesson.participant_set.all %}
+            {% for participant in lesson.participant_set.all|dictsort:"update" %}
                 {% if forloop.counter > lesson.capacity %}
                     <li class="list-group-item" style="background-color: #FFCCCB;">
                 {% else %}
