@@ -12,7 +12,7 @@ class ParticipantTabular(admin.TabularInline):
 
 class CourseAdmin(admin.ModelAdmin):
     inlines = [LessonTabular]
-    list_display = ['name', 'description']
+    list_display = ['name', 'description', 'password']
 
 class LessonAdmin(admin.ModelAdmin):
     list_display = ['course', 'pk', 'when_datetime', 'place', 'trainer']

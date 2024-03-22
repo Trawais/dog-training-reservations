@@ -62,9 +62,15 @@
         <h5>Přihlásit se<h5>
         <form action="{% url 'reservations:lesson' lesson.pk %}" method="post" class="form">
             {% csrf_token %}
-            {% bootstrap_form form layout="inline" %}
+
+            {% if lesson.course.password %}
+                {% bootstrap_form form layout="inline" %}
+            {% else %}
+                {% bootstrap_form form layout="inline" exclude="password" %}
+            {% endif %}
+
             {% buttons %}
-                <button type="submit" class="btn btn-primary mt-3">Pridat</button>
+                <button type="submit" class="btn btn-primary mt-3">Přihlásit se</button>
             {% endbuttons %}
         </form>
 
