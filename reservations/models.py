@@ -5,6 +5,7 @@ from django.utils import timezone
 class Course(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=200, blank=True)
+    password = models.CharField(max_length=50, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

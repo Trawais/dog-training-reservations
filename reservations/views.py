@@ -41,6 +41,13 @@ def lesson_detail(request, pk):
     if request.method == 'POST':
         form = ParticipantForm(request.POST)
         if form.is_valid():
+            if lesson.course.password:
+                password = form.cleaned_data['password']
+                if password != lesson.course.password:
+                    form.data = form.data.copy()  # Make a mutable copy
+                    form.data['password'] = "ZADÁNO NESPRÁVNÉ HESLO"  # Update the password field
+                    # new_form = ParticipantForm(initial={'password': "nespravne heslo"})
+                    return render(request, 'reservations/lesson.html', { 'lesson': lesson, 'form': form })
             participant = Participant(
                 name=form.cleaned_data['name'],
                 phone_number=form.cleaned_data['phone_number'],
@@ -52,4 +59,4 @@ def lesson_detail(request, pk):
             return redirect('reservations:course', pk=lesson.course.pk)
 
     form = ParticipantForm()
-    return render(request, 'reservations/lesson.html', { 'lesson': lesson, 'form': form } )
+    return render(request, 'reservations/lesson.html', { 'lesson': lesson, 'form': form })

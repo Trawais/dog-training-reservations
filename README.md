@@ -1,8 +1,8 @@
 # dog-training-reservations
 
 ## Run dev server
-1. Create virtual environment: `python -m venv django-env`
-2. Activate virtual environment: `source django-env/bin/activate `
+1. Create virtual environment: `python -m venv .venv`
+2. Activate virtual environment: `source .env/bin/activate `
 3. Install packages: `pip install -r requirements.txt`
 4. Run dev server: `DEBUG=True python manage.py runserver`
 
