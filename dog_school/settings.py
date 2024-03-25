@@ -82,15 +82,9 @@ WSGI_APPLICATION = 'dog_school.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-if DEBUG:
-    # SQlite for local debugging
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-else:
+POSTGRES_HOST = os.environ.get("POSTGRES_HOST")
+print(f"POSTGRES_HOST: {POSTGRES_HOST}")
+if POSTGRES_HOST:
     # Postgres - production run
     DATABASES = {
         "default": {
@@ -98,8 +92,16 @@ else:
             'NAME': os.environ.get("POSTGRES_DATABASE"),
             'USER': os.environ.get("POSTGRES_USER"),
             'PASSWORD': os.environ.get("POSTGRES_PASSWORD"),
-            'HOST': os.environ.get("POSTGRES_HOST"),
+            'HOST': POSTGRES_HOST,
             'PORT': os.environ.get("POSTGRES_PORT"),
+        }
+    }
+else:
+    # SQlite for local debugging
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
 
